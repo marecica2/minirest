@@ -26,7 +26,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.bmsource.minirest.internal.ContainerRequest;
+import org.bmsource.minirest.MiniRequest;
 import org.bmsource.minirest.utils.AnnotationUtils;
 import org.bmsource.minirest.utils.RegexUtils;
 
@@ -40,7 +40,7 @@ public class JaxRsRouter<A extends Application> {
 		this.application = application;
 	}
 
-	public Method resolveHandlerMethod(ContainerRequest request)
+	public Method resolveHandlerMethod(MiniRequest request)
 			throws NotAllowedException, NotSupportedException, NotAcceptableException {
 		final URI inputURI = request.getNormalizedRelativePath();
 		final URI uri = inputURI.normalize();
@@ -136,7 +136,7 @@ public class JaxRsRouter<A extends Application> {
 	}
 
 	private List<CandidateResourceMethod> identifyMethod(List<CandidateResourceMethod> candidateMethods,
-			ContainerRequest request) throws NotAllowedException, NotSupportedException, NotAcceptableException {
+			MiniRequest request) throws NotAllowedException, NotSupportedException, NotAcceptableException {
 		boolean isMethodSupported = false;
 
 		// Content-type
@@ -191,7 +191,7 @@ public class JaxRsRouter<A extends Application> {
 		return candidateMethods;
 	}
 
-	private boolean isContentTypeSupported(ContainerRequest request, CandidateResourceMethod resourceMethod) {
+	private boolean isContentTypeSupported(MiniRequest request, CandidateResourceMethod resourceMethod) {
 		if (MediaType.WILDCARD.equals(request.getContentType()))
 			return true;
 
@@ -208,7 +208,7 @@ public class JaxRsRouter<A extends Application> {
 		return false;
 	}
 
-	private boolean isAcceptSupported(ContainerRequest request, CandidateResourceMethod resourceMethod) {
+	private boolean isAcceptSupported(MiniRequest request, CandidateResourceMethod resourceMethod) {
 		if (MediaType.WILDCARD.equals(request.getAccept()))
 			return true;
 
@@ -224,7 +224,7 @@ public class JaxRsRouter<A extends Application> {
 		return false;
 	}
 
-	private boolean checkMethodSupport(ContainerRequest request, final CandidateResourceMethod resourceMethod) {
+	private boolean checkMethodSupport(MiniRequest request, final CandidateResourceMethod resourceMethod) {
 		final Set<String> httpMethods = AnnotationUtils.getAnnotation(resourceMethod.getMethod(), HttpMethod.class);
 		if (httpMethods == null || httpMethods.isEmpty() || !httpMethods.contains(request.getMethod())) {
 			return false;

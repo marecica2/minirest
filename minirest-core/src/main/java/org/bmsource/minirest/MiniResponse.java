@@ -1,4 +1,4 @@
-package org.bmsource.minirest.internal.jaxrs.specimpl;
+package org.bmsource.minirest;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -25,12 +25,15 @@ import javax.ws.rs.ext.RuntimeDelegate;
 
 import org.bmsource.minirest.internal.jaxrs.RuntimeDelegateImpl;
 import org.bmsource.minirest.internal.jaxrs.delegates.LocaleDelegate;
+import org.bmsource.minirest.internal.jaxrs.specimpl.CaseInsensitiveMap;
+import org.bmsource.minirest.internal.jaxrs.specimpl.HeaderValueProcessor;
+import org.bmsource.minirest.internal.jaxrs.specimpl.Headers;
 import org.bmsource.minirest.utils.DateUtil;
 
 /**
  * A response object not attached to a client or server invocation.
  */
-public class BuiltResponse extends Response {
+public class MiniResponse extends Response {
 	protected Object entity;
 	protected int status = Status.OK.getStatusCode();
 	protected Map<String, String[]> headers = new HashMap<>();
@@ -41,10 +44,10 @@ public class BuiltResponse extends Response {
 	protected boolean isClosed;
 	protected Headers<Object> metadata = new Headers<Object>();
 
-	public BuiltResponse() {
+	public MiniResponse() {
 	}
 
-	public BuiltResponse(int status, Headers<Object> metadata, Object entity, Annotation[] entityAnnotations) {
+	public MiniResponse(int status, Headers<Object> metadata, Object entity, Annotation[] entityAnnotations) {
 		setEntity(entity);
 		this.status = status;
 		this.metadata = metadata;

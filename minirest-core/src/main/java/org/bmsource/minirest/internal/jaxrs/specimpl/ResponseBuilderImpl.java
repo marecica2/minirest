@@ -22,7 +22,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Variant;
 import javax.ws.rs.ext.RuntimeDelegate;
 
-import org.bmsource.minirest.internal.ContainerRequest;
+import org.bmsource.minirest.MiniResponse;
+import org.bmsource.minirest.MiniRequest;
 import org.bmsource.minirest.internal.jaxrs.RuntimeDelegateImpl;
 
 public class ResponseBuilderImpl extends Response.ResponseBuilder {
@@ -37,7 +38,7 @@ public class ResponseBuilderImpl extends Response.ResponseBuilder {
 			status = 204;
 		else if (status == -1)
 			status = 200;
-		return new BuiltResponse(status, metadata, entity, entityAnnotations);
+		return new MiniResponse(status, metadata, entity, entityAnnotations);
 	}
 
 	@Override
@@ -168,11 +169,11 @@ public class ResponseBuilderImpl extends Response.ResponseBuilder {
 			metadata.remove(HttpHeaders.LOCATION);
 			return this;
 		}
-		if (!location.isAbsolute() && rd.getContextualData(ContainerRequest.class) != null) {
+		if (!location.isAbsolute() && rd.getContextualData(MiniRequest.class) != null) {
 			String path = location.toString();
 			if (path.startsWith("/"))
 				path = path.substring(1);
-			URI baseUri = rd.getContextualData(ContainerRequest.class).getLocation();
+			URI baseUri = rd.getContextualData(MiniRequest.class).getLocation();
 			location = baseUri.resolve(path);
 		}
 		metadata.putSingle(HttpHeaders.LOCATION, location);
@@ -187,11 +188,11 @@ public class ResponseBuilderImpl extends Response.ResponseBuilder {
 			metadata.remove(HttpHeaders.CONTENT_LOCATION);
 			return this;
 		}
-		if (!location.isAbsolute() && rd.getContextualData(ContainerRequest.class) != null) {
+		if (!location.isAbsolute() && rd.getContextualData(MiniRequest.class) != null) {
 			String path = location.toString();
 			if (path.startsWith("/"))
 				path = path.substring(1);
-			URI baseUri = rd.getContextualData(ContainerRequest.class).getLocation();
+			URI baseUri = rd.getContextualData(MiniRequest.class).getLocation();
 			location = baseUri.resolve(path);
 		}
 		metadata.putSingle(HttpHeaders.CONTENT_LOCATION, location);

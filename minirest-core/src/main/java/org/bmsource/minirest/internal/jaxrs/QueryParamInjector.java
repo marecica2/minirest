@@ -7,13 +7,13 @@ import java.util.Arrays;
 
 import javax.ws.rs.QueryParam;
 
-import org.bmsource.minirest.internal.ContainerRequest;
+import org.bmsource.minirest.MiniRequest;
 
 public class QueryParamInjector implements ValueInjector {
 
 	@Override
 	public void injectResourceProperty(Annotation annotation, Invokable<?> invokable, Field field,
-			ContainerRequest request) throws IllegalAccessException {
+			MiniRequest request) throws IllegalAccessException {
 		QueryParam queryParam = (QueryParam) annotation;
 		field.setAccessible(true);
 		field.set(invokable.getResource(), extractQueryParameterValue(queryParam.value(), request.getQueryString()));
@@ -21,7 +21,7 @@ public class QueryParamInjector implements ValueInjector {
 
 	@Override
 	public void injectMethodParameter(Annotation annotation, Invokable<?> invokable, Parameter parameter,
-			ContainerRequest request) {
+			MiniRequest request) {
 		QueryParam queryParam = (QueryParam) annotation;
 		invokable.addParameter(extractQueryParameterValue(queryParam.value(), request.getQueryString()));
 	}

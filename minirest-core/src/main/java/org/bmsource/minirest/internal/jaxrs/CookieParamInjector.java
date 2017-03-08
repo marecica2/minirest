@@ -8,13 +8,13 @@ import javax.ws.rs.CookieParam;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 
-import org.bmsource.minirest.internal.ContainerRequest;
+import org.bmsource.minirest.MiniRequest;
 
 public class CookieParamInjector extends AbstractInjector {
 
 	@Override
 	public void injectResourceProperty(Annotation annotation, Invokable<?> invokable, Field field,
-			ContainerRequest request) throws IllegalAccessException {
+			MiniRequest request) throws IllegalAccessException {
 		CookieParam cookieParam = (CookieParam) annotation;
 		field.setAccessible(true);
 		field.set(invokable.getResource(), Cookie.valueOf(request.getHeader(HttpHeaders.COOKIE)));
@@ -22,7 +22,7 @@ public class CookieParamInjector extends AbstractInjector {
 
 	@Override
 	public void injectMethodParameter(Annotation annotation, Invokable<?> invokable, Parameter parameter,
-			ContainerRequest request) {
+			MiniRequest request) {
 		CookieParam cookieParam = (CookieParam) annotation;
 		invokable.addParameter(request.getHeader(cookieParam.value()));
 	}

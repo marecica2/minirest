@@ -10,7 +10,8 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.RuntimeDelegate;
 
-import org.bmsource.minirest.internal.cdi.Container;
+import org.bmsource.minirest.MiniRequest;
+import org.bmsource.minirest.internal.container.Container;
 import org.bmsource.minirest.internal.jaxrs.InvokableInjector;
 import org.bmsource.minirest.internal.jaxrs.RuntimeDelegateImpl;
 import org.bmsource.minirest.internal.jaxrs.routing.JaxRsRouter;
@@ -41,7 +42,7 @@ public class JaxRsRequestHandler<A extends Application> implements RequestHandle
 	}
 
 	@Override
-	public Response handle(ContainerRequest request, Container container)
+	public Response handle(MiniRequest request, Container container)
 			throws NotAllowedException, NotSupportedException, NotAcceptableException {
 
 		try {
@@ -49,12 +50,12 @@ public class JaxRsRequestHandler<A extends Application> implements RequestHandle
 			final Class<?> clazz = method.getDeclaringClass();
 
 			RuntimeDelegateImpl runtimeDelegate = (RuntimeDelegateImpl) RuntimeDelegate.getInstance();
-			runtimeDelegate.setContextualData(ContainerRequest.class, request);
+			runtimeDelegate.setContextualData(MiniRequest.class, request);
 
 			Response response = new InvokableInjector(method, container.getInstance(clazz)).inject(request).invoke();
 			return response;
 
-		} catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return null;
 		}

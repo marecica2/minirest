@@ -15,12 +15,11 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.bmsource.minirest.internal.ContainerRequest;
-import org.bmsource.minirest.internal.ContainerRequestBuilder;
 import org.bmsource.minirest.internal.ContextChain;
 import org.bmsource.minirest.internal.JaxRsRequestHandler;
-import org.bmsource.minirest.internal.ResponseBuilder;
-import org.bmsource.minirest.internal.cdi.Container;
+import org.bmsource.minirest.internal.MiniRequestBuilder;
+import org.bmsource.minirest.internal.MiniResponseBuilder;
+import org.bmsource.minirest.internal.container.DefaultContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,18 +33,18 @@ public class HttpServer implements Runnable {
 	private Thread serverThread;
 	private boolean requestStop = false;
 	private final ContextChain contexts;
-	private final Container container;
+	private final DefaultContainer container;
 
 	public HttpServer(HttpServerConfiguration sc) throws IOException {
 		this.serverConfiguration = sc;
 		this.serverSocket = new ServerSocket(sc.getPort());
 		this.contexts = new ContextChain();
 		this.pool = Executors.newFixedThreadPool(sc.getPoolSize());
-		this.container = new Container();
+		this.container = new DefaultContainer();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public HttpContext createContext(String path, Class<? extends Application> application) {
+	public ApplicationContext createContext(String path, Class<? extends Application> application) {
 		JaxRsRequestHandler<?> handler = new JaxRsRequestHandler(application);
 		logger.info("Context initialized for Application {} and listening on path \"/{}\"", application.getName(),
 				path);
@@ -107,30 +106,30 @@ public class HttpServer implements Runnable {
 			OutputStream outputStream = null;
 
 			try {
-				final ContainerRequest request = ContainerRequestBuilder.build(socket.getInputStream());
+				final MiniRequest request = MiniRequestBuilder.build(socket.getInputStream());
 				logger.info(request.toString());
-				final HttpContext context = contexts.getHandlerContext(request);
+				final ApplicationContext context = contexts.getHandlerContext(request);
 
 				outputStream = socket.getOutputStream();
 				if (context != null) {
 					request.setContextPath(context.getContextPath());
 					final Response response = context.handleRequest(request);
-					ResponseBuilder.build(socket.getOutputStream(), response);
+					MiniResponseBuilder.build(socket.getOutputStream(), response);
 				} else {
 					throw new NotFoundException();
 				}
 
 			} catch (NotFoundException e) {
-				ResponseBuilder.build(outputStream, Response.status(Status.NOT_FOUND).build());
+				MiniResponseBuilder.build(outputStream, Response.status(Status.NOT_FOUND).build());
 
 			} catch (NotAllowedException e) {
-				ResponseBuilder.build(outputStream, Response.status(Status.METHOD_NOT_ALLOWED).build());
+				MiniResponseBuilder.build(outputStream, Response.status(Status.METHOD_NOT_ALLOWED).build());
 
 			} catch (NotSupportedException e) {
-				ResponseBuilder.build(outputStream, Response.status(Status.UNSUPPORTED_MEDIA_TYPE).build());
+				MiniResponseBuilder.build(outputStream, Response.status(Status.UNSUPPORTED_MEDIA_TYPE).build());
 
 			} catch (NotAcceptableException e) {
-				ResponseBuilder.build(outputStream, Response.status(Status.NOT_ACCEPTABLE).build());
+				MiniResponseBuilder.build(outputStream, Response.status(Status.NOT_ACCEPTABLE).build());
 
 			} catch (IOException e) {
 				e.printStackTrace();

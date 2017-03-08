@@ -12,7 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import org.bmsource.minirest.internal.ContainerRequest;
+import org.bmsource.minirest.MiniRequest;
 import org.bmsource.minirest.internal.jaxrs.routing.JaxRsRouter;
 import org.junit.Test;
 
@@ -26,13 +26,13 @@ public class JAXRSRouterTest {
 	public void testRouter() throws URISyntaxException {
 		final JaxRsRouter<HelloApplication> router = new JaxRsRouter<HelloApplication>(application);
 
-		ContainerRequest request = new ContainerRequest();
+		MiniRequest request = new MiniRequest();
 		request.setLocation("/first/1234/second/999");
 		request.setMethod("GET");
 		Method method = router.resolveHandlerMethod(request);
 		Assert.assertEquals("helloId", method.getName());
 
-		request = new ContainerRequest();
+		request = new MiniRequest();
 		request.setLocation("/first/1234/second/");
 		request.setMethod("POST");
 		method = router.resolveHandlerMethod(request);

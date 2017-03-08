@@ -1,4 +1,4 @@
-package org.bmsource.minirest.internal;
+package org.bmsource.minirest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.Map;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 
-public class ContainerRequest {
+public class MiniRequest {
 
 	private String method;
 
@@ -48,7 +48,7 @@ public class ContainerRequest {
 		return this.contextPath;
 	}
 
-	void setAbsoluteLocation(String absoluteLocation) {
+	public void setAbsoluteLocation(String absoluteLocation) {
 		this.absoluteLocation = absoluteLocation;
 	}
 

@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-public class ResponseBuilder {
+public class MiniResponseBuilder {
 
 	public static void build(OutputStream os, javax.ws.rs.core.Response response) {
 		PrintWriter pw = new PrintWriter(os);

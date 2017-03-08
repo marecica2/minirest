@@ -4,14 +4,14 @@
 	<artifactId>minirest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>WebserverBuild</name>
-	<description>Parent pom for webserver</description>
+	<name>minirest</name>
+	<description>Parent pom of minirest</description>
+
 	<modules>
-		
 		<module>minirest-standalone</module>
 		<module>minirest-core</module>
 	</modules>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -25,5 +25,44 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	</build>	
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.bmsource.minirest</groupId>
+				<artifactId>minirest-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bmsource.minirest</groupId>
+				<artifactId>minirest-standalone</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>7.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+	   <dependency>
+	       <groupId>org.slf4j</groupId>
+	       <artifactId>slf4j-log4j12</artifactId>
+	       <version>1.7.21</version>
+	   </dependency>		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+		</dependency>
+	</dependencies>
 </project>

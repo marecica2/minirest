@@ -9,14 +9,14 @@ import java.util.regex.Pattern;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import org.bmsource.minirest.internal.ContainerRequest;
+import org.bmsource.minirest.MiniRequest;
 import org.bmsource.minirest.utils.RegexUtils;
 
 public class PathParamInjector extends AbstractInjector {
 
 	@Override
 	public void injectResourceProperty(Annotation annotation, Invokable<?> invokable, Field field,
-			ContainerRequest request) throws IllegalArgumentException, IllegalAccessException {
+			MiniRequest request) throws IllegalArgumentException, IllegalAccessException {
 		PathParam pathParam = (PathParam) annotation;
 		Path path = invokable.getResource().getClass().getAnnotation(Path.class);
 		Object value = findPathSegmentValue(pathParam.value(), path.value(), request);
@@ -26,7 +26,7 @@ public class PathParamInjector extends AbstractInjector {
 
 	@Override
 	public void injectMethodParameter(Annotation annotation, Invokable<?> invokable, Parameter parameter,
-			ContainerRequest request) {
+			MiniRequest request) {
 		final PathParam pathParam = (PathParam) annotation;
 		final Path pathResource = invokable.getResource().getClass().getDeclaredAnnotation(Path.class);
 		final Path pathMethod = invokable.getMethod().getAnnotation(Path.class);
@@ -38,7 +38,7 @@ public class PathParamInjector extends AbstractInjector {
 		invokable.addParameter(value);
 	}
 
-	private Object findPathSegmentValue(String pathParam, String path, ContainerRequest request) {
+	private Object findPathSegmentValue(String pathParam, String path, MiniRequest request) {
 
 		Pattern p = Pattern.compile(RegexUtils.convertURItoRegexNamed(path));
 		Matcher m = p.matcher(request.getNormalizedRelativePath().toString());

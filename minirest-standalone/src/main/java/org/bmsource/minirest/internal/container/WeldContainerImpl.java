@@ -1,9 +1,9 @@
-package org.bmsource.minirest.internal.cdi;
+package org.bmsource.minirest.internal.container;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
-public class Container {
+public class WeldContainerImpl {
 	private Weld weld;
 	private WeldContainer weldContainer;
 
