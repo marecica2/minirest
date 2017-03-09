@@ -47,6 +47,8 @@ public class JaxRsRequestHandler<A extends Application> implements RequestHandle
 
 		try {
 			final Method method = this.router.resolveHandlerMethod(request);
+			logger.info("Method {}.{} handling the request {}", method.getDeclaringClass().getName(), method.getName(),
+					request.getRelativePath());
 			final Class<?> clazz = method.getDeclaringClass();
 
 			RuntimeDelegateImpl runtimeDelegate = (RuntimeDelegateImpl) RuntimeDelegate.getInstance();
@@ -56,7 +58,7 @@ public class JaxRsRequestHandler<A extends Application> implements RequestHandle
 			return response;
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}

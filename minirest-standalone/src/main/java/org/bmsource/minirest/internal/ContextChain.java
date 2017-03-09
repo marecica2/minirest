@@ -3,9 +3,9 @@ package org.bmsource.minirest.internal;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.bmsource.minirest.MiniRequest;
 import org.bmsource.minirest.ApplicationContext;
-import org.bmsource.minirest.internal.container.DefaultContainer;
+import org.bmsource.minirest.MiniRequest;
+import org.bmsource.minirest.internal.container.Container;
 
 public class ContextChain {
 	private SortedSet<ApplicationContext> contextSet = new TreeSet<>();
@@ -18,7 +18,7 @@ public class ContextChain {
 	 * @param handler
 	 * @return currently created context
 	 */
-	public ApplicationContext createContext(String path, RequestHandler handler, DefaultContainer container) {
+	public ApplicationContext createContext(String path, RequestHandler handler, Container container) {
 		ApplicationContext httpContext = new ApplicationContext(path, handler, container);
 		contextSet.add(httpContext);
 		return httpContext;

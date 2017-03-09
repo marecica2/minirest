@@ -83,6 +83,6 @@ public class HelloWorldResource {
 	@Produces(MediaType.TEXT_HTML)
 	public Response helloId(@PathParam("id1") String id1, @QueryParam("q") String q) {
 		return Response.ok("get id1=" + id1 + ", id=" + id + ", q=" + q + ", qp=" + qp + " cache=" + cacheControl
-				+ " cookie=" + cookieLSID.getValue()).header("SERVER", "XXXXXXXX").build();
+				+ " cookie=" + cookieLSID).header("SERVER", "XXXXXXXX").build();
 	}
 }

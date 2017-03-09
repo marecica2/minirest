@@ -13,11 +13,12 @@ import org.bmsource.minirest.MiniRequest;
 public class CookieParamInjector extends AbstractInjector {
 
 	@Override
-	public void injectResourceProperty(Annotation annotation, Invokable<?> invokable, Field field,
-			MiniRequest request) throws IllegalAccessException {
-		CookieParam cookieParam = (CookieParam) annotation;
+	public void injectResourceProperty(Annotation annotation, Invokable<?> invokable, Field field, MiniRequest request)
+			throws IllegalAccessException {
 		field.setAccessible(true);
-		field.set(invokable.getResource(), Cookie.valueOf(request.getHeader(HttpHeaders.COOKIE)));
+		String cookieHeader = request.getHeader(HttpHeaders.COOKIE);
+		if (cookieHeader != null)
+			field.set(invokable.getResource(), Cookie.valueOf(cookieHeader));
 	}
 
 	@Override

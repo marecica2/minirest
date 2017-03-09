@@ -19,7 +19,8 @@ import org.bmsource.minirest.internal.ContextChain;
 import org.bmsource.minirest.internal.JaxRsRequestHandler;
 import org.bmsource.minirest.internal.MiniRequestBuilder;
 import org.bmsource.minirest.internal.MiniResponseBuilder;
-import org.bmsource.minirest.internal.container.DefaultContainer;
+import org.bmsource.minirest.internal.container.Container;
+import org.bmsource.minirest.internal.container.WeldContainerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,14 +34,14 @@ public class HttpServer implements Runnable {
 	private Thread serverThread;
 	private boolean requestStop = false;
 	private final ContextChain contexts;
-	private final DefaultContainer container;
+	private final Container container;
 
 	public HttpServer(HttpServerConfiguration sc) throws IOException {
 		this.serverConfiguration = sc;
 		this.serverSocket = new ServerSocket(sc.getPort());
 		this.contexts = new ContextChain();
 		this.pool = Executors.newFixedThreadPool(sc.getPoolSize());
-		this.container = new DefaultContainer();
+		this.container = new WeldContainerImpl();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -67,8 +68,6 @@ public class HttpServer implements Runnable {
 	 */
 	public synchronized void stop() throws IOException {
 		this.requestStop = true;
-		Socket socket = new Socket("localhost", serverConfiguration.getPoolSize());
-		socket.close();
 		this.container.stop();
 		this.serverThread.interrupt();
 	}
@@ -131,8 +130,8 @@ public class HttpServer implements Runnable {
 			} catch (NotAcceptableException e) {
 				MiniResponseBuilder.build(outputStream, Response.status(Status.NOT_ACCEPTABLE).build());
 
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
 
 			} finally {
 				try {
