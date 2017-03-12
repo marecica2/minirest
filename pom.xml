@@ -10,6 +10,7 @@
 	<modules>
 		<module>minirest-standalone</module>
 		<module>minirest-core</module>
+		<module>minirest-servlet</module>
 	</modules>
 
 	<build>
@@ -45,6 +46,17 @@
 				<artifactId>javaee-api</artifactId>
 				<version>7.0</version>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld.se</groupId>
+				<artifactId>weld-se</artifactId>
+				<version>2.3.3.Final</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.httpcomponents</groupId>
+			    <artifactId>httpclient</artifactId>
+			    <version>4.5.3</version>
+			    <scope>test</scope>
+			</dependency>			
 		</dependencies>
 	</dependencyManagement>
 

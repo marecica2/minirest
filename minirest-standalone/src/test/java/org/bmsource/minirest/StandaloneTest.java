@@ -37,7 +37,7 @@ public class StandaloneTest extends TestCase {
 	}
 
 	@Test
-	public void standaloneServerTest() throws Exception {
+	public void testStandaloneServer() throws Exception {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet("http://" + host + ":" + port + "/test/hello/123/test/321");
 		CloseableHttpResponse response = httpclient.execute(httpGet);
