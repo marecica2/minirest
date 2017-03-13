@@ -13,6 +13,10 @@
 		<module>minirest-servlet</module>
 	</modules>
 
+	<properties>
+		<jetty.version>9.4.2.v20170220</jetty.version>
+	</properties>
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -52,11 +56,30 @@
 				<version>2.3.3.Final</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.apache.httpcomponents</groupId>
-			    <artifactId>httpclient</artifactId>
-			    <version>4.5.3</version>
-			    <scope>test</scope>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.5.3</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>9.4.2.v20170220</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-servlet</artifactId>
+				<version>${jetty.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.eclipse.jetty</groupId>
+			    <artifactId>jetty-webapp</artifactId>
+				<version>${jetty.version}</version>
+				<scope>test</scope>
 			</dependency>			
+			
 		</dependencies>
 	</dependencyManagement>
 
@@ -66,11 +89,11 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.21</version>
 		</dependency>
-	   <dependency>
-	       <groupId>org.slf4j</groupId>
-	       <artifactId>slf4j-log4j12</artifactId>
-	       <version>1.7.21</version>
-	   </dependency>		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
