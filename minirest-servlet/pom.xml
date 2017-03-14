@@ -22,10 +22,15 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.bmsource.minirest</groupId>
+			<artifactId>minirest-core</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-		</dependency>	
-		
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>

@@ -1,11 +1,27 @@
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+                             
+	<context-param>
+	   <param-name>minirest.jndi.resources</param-name>
+	   <param-value>LibraryBean/local</param-value>
+	</context-param>                             
+                             
+    <listener>
+        <listener-class>
+        	org.bmsource.minirest.servlet.MinirestBootstrap
+        </listener-class>
+    </listener>
 
 	<servlet>
 		<servlet-name>MinirestServlet</servlet-name>
-		<servlet-class>org.bmsource.minirest.servlet.MinirestServlet</servlet-class>
+		<servlet-class>org.bmsource.minirest.servlet.MinirestHttpServletDispatcher</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>org.bmsource.minirest.application.HelloApplication</param-value>
+		</init-param>
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>MinirestServlet</servlet-name>
 		<url-pattern>/test</url-pattern>

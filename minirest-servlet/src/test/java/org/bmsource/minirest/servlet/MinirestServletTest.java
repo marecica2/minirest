@@ -30,11 +30,6 @@ public class MinirestServletTest {
 		String rootPath = MinirestServletTest.class.getClassLoader().getResource(".").toString();
 		WebAppContext webapp = new WebAppContext(rootPath + "../../src/test/resources/webapp", "");
 		server.setHandler(webapp);
-
-		// ServletHandler handler = new ServletHandler();
-		// server.setHandler(handler);
-		// handler.addServletWithMapping(MinirestServlet.class, "/*");
-
 		server.start();
 	}
 
@@ -51,8 +46,6 @@ public class MinirestServletTest {
 		HttpGet httpGet = new HttpGet("http://" + host + ":" + port + "/test");
 		CloseableHttpResponse response = httpclient.execute(httpGet);
 		String r = EntityUtils.toString(response.getEntity());
-
-		System.err.println(r);
 
 		Assert.assertNotNull(r);
 		Assert.assertEquals(200, response.getStatusLine().getStatusCode());
