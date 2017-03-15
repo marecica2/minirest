@@ -27,19 +27,9 @@ public class MinirestServletTest {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		server = new Server(port);
-
-		String rootPath = MinirestServletTest.class.getClassLoader().getResource(".").toString();
+		String rootPath = new File(new File(".").getAbsolutePath()).getCanonicalPath();
 		WebAppContext webapp = new WebAppContext();
-		File f = new File(
-				"d:/Programme/eclipse-mars-workspace/minirest/minirest-servlet/target/minirest-servlet-0.0.1-SNAPSHOT.war");
-		System.err.println(f.exists());
-		System.err.println(f.getAbsolutePath());
-
-		webapp.setWar(
-				"d:/Programme/eclipse-mars-workspace/minirest/minirest-servlet/target/minirest-servlet-0.0.1-SNAPSHOT.war");
-		System.err.println("HEEEEEEEEEEEERE");
-		System.err.println("HEEEEEEEEEEEERE");
-		System.err.println("HEEEEEEEEEEEERE");
+		webapp.setWar(rootPath + "\\target\\minirest-servlet-0.0.1-SNAPSHOT.war");
 		server.setHandler(webapp);
 		server.start();
 	}

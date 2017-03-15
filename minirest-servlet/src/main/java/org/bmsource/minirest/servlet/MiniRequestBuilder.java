@@ -2,6 +2,7 @@ package org.bmsource.minirest.servlet;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,20 +32,24 @@ public class MiniRequestBuilder {
 		builder.request.setProtocol(httpServletRequest.getProtocol());
 
 		// Cookies
-		javax.ws.rs.core.Cookie[] restCookies = new javax.ws.rs.core.Cookie[httpServletRequest.getCookies().length];
-		int idx = 0;
-		for (Cookie cookie : httpServletRequest.getCookies()) {
-			javax.ws.rs.core.Cookie ck = new javax.ws.rs.core.Cookie(cookie.getName(), cookie.getValue(),
-					cookie.getPath(), cookie.getDomain());
-			restCookies[idx] = ck;
-			idx++;
+		if (httpServletRequest.getCookies() != null) {
+
+			javax.ws.rs.core.Cookie[] restCookies = new javax.ws.rs.core.Cookie[httpServletRequest.getCookies().length];
+			int idx = 0;
+			for (Cookie cookie : httpServletRequest.getCookies()) {
+				javax.ws.rs.core.Cookie ck = new javax.ws.rs.core.Cookie(cookie.getName(), cookie.getValue(),
+						cookie.getPath(), cookie.getDomain());
+				restCookies[idx] = ck;
+				idx++;
+			}
+			builder.request.setCookies(restCookies);
 		}
-		builder.request.setCookies(restCookies);
 
 		// Headers
-		while (httpServletRequest.getHeaderNames().hasMoreElements()) {
-			final String name = httpServletRequest.getHeaderNames().nextElement();
-			builder.request.addHeader(name, (String[]) Collections.list(httpServletRequest.getHeaders(name)).toArray());
+		final List<String> names = Collections.list(httpServletRequest.getHeaderNames());
+		for (String name : names) {
+			final List<String> list = Collections.list(httpServletRequest.getHeaders(name));
+			builder.request.addHeader(name, list.toArray(new String[list.size()]));
 		}
 
 		return builder.build();

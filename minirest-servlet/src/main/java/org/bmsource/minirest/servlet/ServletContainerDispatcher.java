@@ -23,8 +23,8 @@ public class ServletContainerDispatcher {
 	public ServletContainerDispatcher(ServletConfig servletConfig) {
 		try {
 			final String applicationName = servletConfig.getInitParameter(JAVAX_WS_RS_APPLICATION_PARAMETER);
-			final Class<? extends Application> applicationClass = (Class<? extends Application>) this.getClass()
-					.getClassLoader().loadClass(applicationName);
+			final Class<? extends Application> applicationClass = (Class<? extends Application>) servletConfig
+					.getServletContext().getClassLoader().loadClass(applicationName);
 
 			this.servletConfig = servletConfig;
 			this.handler = new JaxRsRequestHandler(applicationClass);
