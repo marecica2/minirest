@@ -40,7 +40,7 @@ public class ServletContainerDispatcher {
 	}
 
 	public void service(String httpMethod, HttpServletRequest request, HttpServletResponse response) {
-		handler.handle(request, container);
+		handler.handle(MiniRequestBuilder.build(request), container);
 	}
 
 }

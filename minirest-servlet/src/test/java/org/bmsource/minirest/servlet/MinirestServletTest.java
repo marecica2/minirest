@@ -1,5 +1,6 @@
 package org.bmsource.minirest.servlet;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
@@ -28,7 +29,17 @@ public class MinirestServletTest {
 		server = new Server(port);
 
 		String rootPath = MinirestServletTest.class.getClassLoader().getResource(".").toString();
-		WebAppContext webapp = new WebAppContext(rootPath + "../../src/test/resources/webapp", "");
+		WebAppContext webapp = new WebAppContext();
+		File f = new File(
+				"d:/Programme/eclipse-mars-workspace/minirest/minirest-servlet/target/minirest-servlet-0.0.1-SNAPSHOT.war");
+		System.err.println(f.exists());
+		System.err.println(f.getAbsolutePath());
+
+		webapp.setWar(
+				"d:/Programme/eclipse-mars-workspace/minirest/minirest-servlet/target/minirest-servlet-0.0.1-SNAPSHOT.war");
+		System.err.println("HEEEEEEEEEEEERE");
+		System.err.println("HEEEEEEEEEEEERE");
+		System.err.println("HEEEEEEEEEEEERE");
 		server.setHandler(webapp);
 		server.start();
 	}

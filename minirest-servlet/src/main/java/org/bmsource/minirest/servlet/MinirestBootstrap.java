@@ -1,12 +1,14 @@
 package org.bmsource.minirest.servlet;
 
+import java.util.EventListener;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import org.bmsource.minirest.internal.container.Container;
 import org.bmsource.minirest.internal.container.WeldContainerImpl;
 
-public class MinirestBootstrap {
+public class MinirestBootstrap implements EventListener {
 	public static String MINIREST_CONTAINER_ATTRIBUTE = "minirest.container";
 
 	private Container container;
