@@ -8,9 +8,7 @@
 	</context-param>                             
                              
     <listener>
-        <listener-class>
-        	org.bmsource.minirest.servlet.MinirestBootstrap
-        </listener-class>
+        <listener-class>org.bmsource.minirest.servlet.MinirestBootstrap</listener-class>
     </listener>
 
 	<servlet>
@@ -24,7 +22,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>MinirestServlet</servlet-name>
-		<url-pattern>/test</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>

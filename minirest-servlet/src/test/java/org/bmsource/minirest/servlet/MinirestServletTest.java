@@ -14,10 +14,14 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import junit.framework.Assert;
 
 public class MinirestServletTest {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private static Server server;
 
@@ -42,13 +46,15 @@ public class MinirestServletTest {
 	@Test
 	public void test() throws ClientProtocolException, IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-		// HttpGet httpGet = new HttpGet("http://" + host + ":" + port +
-		// "/test/hello/123/test/321");
-		HttpGet httpGet = new HttpGet("http://" + host + ":" + port + "/test");
+		HttpGet httpGet = new HttpGet("http://" + host + ":" + port + "/hello/123/test/321");
+		httpGet.setHeader("Content-type", "text/html");
 		CloseableHttpResponse response = httpclient.execute(httpGet);
 		String r = EntityUtils.toString(response.getEntity());
-
 		Assert.assertNotNull(r);
+
+		logger.info("AAAAAAAAAAAAAA");
+		logger.info(r);
+
 		Assert.assertEquals(200, response.getStatusLine().getStatusCode());
 		httpclient.close();
 	}

@@ -22,6 +22,9 @@ public class ServletContainerDispatcher {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ServletContainerDispatcher(ServletConfig servletConfig) {
 		try {
+
+			servletConfig.getServletContext().getResourcePaths("/WEB-INF/lib");
+
 			final String applicationName = servletConfig.getInitParameter(JAVAX_WS_RS_APPLICATION_PARAMETER);
 			final Class<? extends Application> applicationClass = (Class<? extends Application>) servletConfig
 					.getServletContext().getClassLoader().loadClass(applicationName);
