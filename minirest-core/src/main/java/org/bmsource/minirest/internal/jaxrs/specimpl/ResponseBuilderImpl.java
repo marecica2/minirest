@@ -22,8 +22,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Variant;
 import javax.ws.rs.ext.RuntimeDelegate;
 
-import org.bmsource.minirest.MiniResponse;
 import org.bmsource.minirest.MiniRequest;
+import org.bmsource.minirest.MiniResponse;
 import org.bmsource.minirest.internal.jaxrs.RuntimeDelegateImpl;
 
 public class ResponseBuilderImpl extends Response.ResponseBuilder {

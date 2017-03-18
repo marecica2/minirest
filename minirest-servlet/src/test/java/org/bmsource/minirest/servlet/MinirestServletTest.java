@@ -52,7 +52,6 @@ public class MinirestServletTest {
 		String r = EntityUtils.toString(response.getEntity());
 		Assert.assertNotNull(r);
 
-		logger.info("AAAAAAAAAAAAAA");
 		logger.info(r);
 
 		Assert.assertEquals(200, response.getStatusLine().getStatusCode());

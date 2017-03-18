@@ -13,7 +13,6 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
 import org.bmsource.minirest.MiniRequest;
-import org.bmsource.minirest.internal.jaxrs.routing.JaxRsRouter;
 import org.junit.Test;
 
 import junit.framework.Assert;

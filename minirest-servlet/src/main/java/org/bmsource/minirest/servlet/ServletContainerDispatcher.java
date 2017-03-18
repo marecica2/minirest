@@ -4,7 +4,9 @@ import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 
+import org.bmsource.minirest.MiniRequest;
 import org.bmsource.minirest.internal.JaxRsRequestHandler;
 import org.bmsource.minirest.internal.container.Container;
 import org.slf4j.Logger;
@@ -42,8 +44,18 @@ public class ServletContainerDispatcher {
 	public void destroy() {
 	}
 
-	public void service(String httpMethod, HttpServletRequest request, HttpServletResponse response) {
-		handler.handle(MiniRequestBuilder.build(request), container);
+	public void service(String httpMethod, HttpServletRequest httpRequest, HttpServletResponse response) {
+		MiniRequest request = MiniRequestBuilder.build(httpRequest);
+		Response jaxrsResponse = handler.handle(request, container);
+		writeResponse(httpRequest, response, jaxrsResponse);
+	}
+
+	protected void writeResponse(HttpServletRequest request, HttpServletResponse response, Response jaxrsResponse) {
+		try {
+			ServerResponseWriter.writeResponse(jaxrsResponse, request, response);
+		} catch (Exception e) {
+			logger.error("writeResponse() failed mapping exception", e);
+		}
 	}
 
 }
