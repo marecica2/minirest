@@ -1,14 +1,27 @@
 package org.bmsource.minirest.internal.jaxrs.routing;
 
 import java.lang.reflect.Method;
+import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Matcher;
 
 import javax.ws.rs.Path;
 
-public class CandidateResource implements Comparable<CandidateResource> {
+public class CandidateResource {
 	private Class<?> resourceClass;
 	private Matcher matcher;
 	private String convertedTemplate;
+
+	private static final Comparator<CandidateResource> annotationComparator = (CandidateResource c1,
+			CandidateResource c2) -> ((Integer) c1.resourceClass.getDeclaredAnnotation(Path.class).value().length())
+					.compareTo(c2.resourceClass.getDeclaredAnnotation(Path.class).value().length());
+
+	private static final Comparator<CandidateResource> regexComparator = (CandidateResource c1,
+			CandidateResource c2) -> ((Integer) c1.matcher.groupCount()).compareTo(c2.matcher.groupCount());
+
+	public static void sort(List<CandidateResource> list) {
+		list.sort(annotationComparator.thenComparing(regexComparator).reversed());
+	}
 
 	public Class<?> getResourceClass() {
 		return resourceClass;
@@ -45,24 +58,6 @@ public class CandidateResource implements Comparable<CandidateResource> {
 
 	public String getConvertedTemplate() {
 		return convertedTemplate;
-	}
-
-	@Override
-	public int compareTo(CandidateResource resourceClass2) {
-		final Path path1 = this.resourceClass.getDeclaredAnnotation(Path.class);
-		final Path path2 = resourceClass2.getResourceClass().getDeclaredAnnotation(Path.class);
-		if (path1.value().length() > path2.value().length()) {
-			return 1;
-		} else if (path1.value().length() < path2.value().length()) {
-			return -1;
-		} else if (path1.value().length() == path2.value().length()) {
-			if (this.matcher.groupCount() > resourceClass2.getMatcher().groupCount()) {
-				return 1;
-			} else if (this.matcher.groupCount() > resourceClass2.getMatcher().groupCount()) {
-				return -1;
-			}
-		}
-		return 0;
 	}
 
 	@Override

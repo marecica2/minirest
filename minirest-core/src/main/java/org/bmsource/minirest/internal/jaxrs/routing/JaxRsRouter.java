@@ -87,8 +87,7 @@ public class JaxRsRouter<A extends Application> {
 			}
 		}
 
-		Collections.sort(candidateResourceClasses);
-		Collections.reverse(candidateResourceClasses);
+		CandidateResource.sort(candidateResourceClasses);
 		return new LinkedHashSet<CandidateResource>(candidateResourceClasses);
 	}
 
